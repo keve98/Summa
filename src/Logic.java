@@ -1,68 +1,34 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Logic {
 
     String result = "";
-    int calculated = 0;
     ArrayList<Integer> resultArray = new ArrayList<>();
-    Map<Integer, ArrayList<Integer>> resultMap= new HashMap<>();
-    boolean isFailed = false;
+    ArrayList<ArrayList<Integer>> allResults = new ArrayList<>();
 
 
-    public void calculate(int basenum, ArrayList<Integer> array) {
-        for (Integer j = 0; j < array.size(); j++) {
-            for (Integer i = j; i < array.size(); i++) {
-                while (array.get(i) <= basenum - calculated) {
-                    calculated += array.get(i);
-                    resultArray.add(array.get(i));
-                }
+    public int calculate(int start, int basenum, Integer[] numsToSum, String sum) {
+        int res = 0;
 
-                if (calculated == basenum) {
-                    resultMap.put(resultArray.size(), resultArray);
-                    resultArray = new ArrayList<>();
-                    calculated = 0;
-                } else {
-                    if ((array.get(i) > basenum - calculated) && (i.equals(array.size() - 1))) {
-                        int numToDelete = array.get(i-1);
-                        calculated -= numToDelete;
-                        for (int k = 0; k < array.size(); k++) {
-                            if (array.get(k) == numToDelete) {
-                                i = k;
-                                if (i.equals(array.size() - 1)) {
-                                    isFailed = true;
-                                }
-                            }
-                        }
-                        resultArray.remove(0);
-                    }
-
-                    if (isFailed) {
-                        System.out.println("There is no available sum of the given numbers");
-                    }
-                }
-
-            }
+        if (basenum < 0) {
+            return 0;
         }
 
-        printResult();
-
-    }
-
-
-
-    public void printResult(){
-        Integer min = Collections.min(resultMap.keySet());
-        resultArray = resultMap.get(min);
-         for (Integer k: resultArray) {
-            result += k.toString() + "+";
+        if(result != "" && sum.replaceAll("^+", "").length() > result.replaceAll("^+", "").length()){
+            return 1;
         }
 
-        result = result.substring(0, result.length() - 1);
+        if (basenum == 0) {
+            sum = sum.substring(0, sum.length() - 1);
+            result = sum;
 
-        System.out.println(result);
+            return 1;
+        }
+
+        for (int i = 0; i < numsToSum.length; i++) {
+            res += calculate(i, basenum - numsToSum[i], numsToSum, sum + Integer.toString(numsToSum[i]) + "+");
+        }
+        return res;
 
     }
 

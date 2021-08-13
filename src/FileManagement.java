@@ -1,13 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
 public class FileManagement {
 
     int baseNum;
-    ArrayList<Integer> numbers = new ArrayList<>();
+    Integer[] numbers;
 
     public void loadFile(String filename){
         try {
@@ -23,15 +23,20 @@ public class FileManagement {
         }
     }
 
+
     public void fillArray(Scanner scanner){
         String nums = scanner.nextLine();
         String[] splited = nums.split(",");
+        numbers = new Integer[splited.length];
+
+        int i = 0;
 
         for (String s: splited) {
-            numbers.add(Integer.parseInt(s));
+            numbers[i++] = Integer.parseInt(s);
         }
 
-        Collections.sort(numbers, Collections.reverseOrder());
+
+        Arrays.sort(numbers, Collections.reverseOrder());
     }
 
 

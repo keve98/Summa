@@ -7,9 +7,10 @@ public class Main {
         FileManagement fileManagement = new FileManagement();
         Logic logic  = new Logic();
 
-        fileManagement.loadFile("input.txt");
+        fileManagement.loadFile(inputFileName);
 
-        logic.calculate(fileManagement.baseNum, fileManagement.numbers);
+        logic.calculate(0, fileManagement.baseNum, fileManagement.numbers, "");
+        System.out.println(logic.result);
 
 
     }
